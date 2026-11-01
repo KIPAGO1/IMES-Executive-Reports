@@ -54,20 +54,35 @@ jobs:
           printf '%s\n' "$HOST_KEY" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
-      - name: Deploy to AWS EC2
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-        run: |
-          rsync -rltz --delete \
-            --chmod=D755,F644 \
-            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
-            frontend/dist/imes/browser/ \
-            "$EC2_USER@$EC2_HOST:/var/www/imes/"
+
+
+        - name: Deploy to AWS EC2
+          env:
+            EC2_HOST: ${{ secrets.EC2_HOST }}
+            EC2_USER: ${{ secrets.EC2_USER }}
+          run: |
+            if [ -z "$EC2_HOST" ]; then
+              echo "::error::EC2_HOST secret is missing or empty"
+              exit 1
+            fi
+
+            if [ -z "$EC2_USER" ]; then
+              echo "::error::EC2_USER secret is missing or empty"
+              exit 1
+            fi
+
+            echo "Deploying IMES to AWS..."
+
+            rsync -rltz --delete \
+              --chmod=D755,F644 \
+              -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
+              frontend/dist/imes/browser/ \
+              "${EC2_USER}@${EC2_HOST}:/var/www/imes/"
+
 
       - name: Verify deployment
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           curl --fail --retry 5 --retry-delay 3 \
-            "http://$EC2_HOST/login" > /dev/null
+            "http://${EC2_HOST}/login" > /dev/null
