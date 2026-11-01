@@ -1,0 +1,58 @@
+/* IMES Revenue — Education dashboard visual language */
+:host{display:block;min-width:0}
+.revenue-dashboard{max-width:1700px;margin:0 auto 35px;color:var(--ink,#092b62);font-family:Arial,sans-serif;min-width:0}
+.revenue-heading{background:var(--surface,#fff);border:1px solid #9abcf0;border-radius:11px;text-align:center;color:var(--ink,#092b62);font-size:clamp(22px,2.3vw,38px);line-height:1.2;font-weight:800;padding:15px 12px;margin:8px 0 16px}
+.demo-note{text-align:center;font-size:12px;color:#64748b;margin:-7px 0 16px}
+.filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;background:var(--surface,#fff);border:1px solid #9bcaff;border-radius:15px;padding:15px;margin-bottom:24px;box-shadow:0 2px 6px #184a7c15}
+.filters label{display:block;min-width:0;font-size:14px;font-weight:700;color:var(--ink,#092b62)}
+.filters select{display:block;width:100%;min-width:0;margin-top:7px;padding:11px 10px;border:1px solid #a2bce3;border-radius:9px;background:var(--surface,#fff);color:var(--ink,#092b62);font-size:15px}
+.collection-progress{border:1px solid #9bcaff;border-radius:15px;padding:15px 20px;margin-bottom:24px;background:var(--surface,#fff)}
+.progress-labels,.progress-numbers{display:flex;justify-content:space-between;gap:10px;font-size:16px;font-weight:800}
+.progress-numbers{font-size:20px}.progress-numbers strong:last-child,.progress-labels span:last-child{color:#e92e3a}
+.progress-track{height:30px;border-radius:8px;display:flex;overflow:hidden;margin:9px 0;background:#e4e9f2}
+.progress-collected{background:#03b1e6}.progress-uncollected{background:#f4323d}
+/* Education-style KPI cards: icons inside the card, aligned to the left */
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0 0 26px}
+.kpi{display:flex;align-items:center;gap:17px;min-width:0;min-height:116px;padding:17px 16px;border:2px solid #34a8ff;border-radius:16px;color:#fff;box-shadow:0 3px 7px #163c6420}
+.kpi-plan{background:linear-gradient(110deg,#0878d7,#0053a5)}
+.kpi-collected{background:linear-gradient(110deg,#0dc75a,#008c32)}
+.kpi-remaining{background:linear-gradient(110deg,#ffa500,#dc7900)}
+.kpi-icon{position:relative;display:grid;place-items:center;flex:0 0 66px;width:66px;height:66px;border:2px solid #8dc7ff;border-radius:50%;background:#fff;color:#0d315e;font-size:31px;font-weight:800;overflow:hidden}
+.kpi-icon img{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);object-fit:contain;background:#fff}
+.kpi-content{display:flex;flex-direction:column;gap:7px;min-width:0;flex:1}
+.kpi h2{margin:0;font-size:clamp(15px,1.3vw,20px);line-height:1.15;font-weight:800;color:#fff}
+.kpi strong{display:block;font-size:clamp(20px,2.15vw,34px);line-height:1.15;font-weight:900;overflow-wrap:anywhere;color:#fff}
+.kpi small{font-size:13px;color:#fff;font-weight:700;opacity:.95}
+/* Charts: white panels with blue Education-style headers */
+.visual-grid{display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:18px;margin-bottom:20px}
+.panel{background:var(--surface,#fff);border:1px solid #9bcaff;border-radius:15px;overflow:hidden;min-width:0;padding:0 16px 18px;box-shadow:0 2px 6px #184a7c15}
+.panel h2{background:linear-gradient(110deg,#0871c7,#0953ad);color:#fff;font-size:17px;line-height:1.25;font-weight:800;margin:0 -16px 16px;padding:15px 16px}
+.subtitle{font-size:13px;color:#64809e;margin:0 0 12px}
+.donut{width:min(190px,85%);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;margin:14px auto}
+.donut-hole{background:var(--surface,#fff);width:61%;height:61%;border-radius:50%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.donut-hole b{font-size:27px}.donut-hole span{font-size:13px}
+.legend{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;font-size:12px}
+.legend span,.region-key span{display:inline-flex;align-items:center;gap:5px}
+.legend i,.region-key i{display:inline-block;width:11px;height:11px;border-radius:3px}
+.cyan{background:#00a9e7}.red{background:#f43b44}.green{background:#0ca765}.blue{background:#1e86d4}
+.quarter-chart{height:230px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end;padding-top:12px}
+.quarter{height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;min-width:0}
+.quarter-value{font-size:12px;font-weight:700;white-space:nowrap}
+.quarter-bar-wrap{width:100%;max-width:65px;height:165px;display:flex;align-items:end;border-bottom:1px solid #92a9c6}
+.quarter-bar{width:100%;min-height:2px;background:linear-gradient(#4e8cde,#0b54b3);border-radius:6px 6px 0 0}
+.quarter>span{font-size:12px;text-align:center;margin-top:8px}
+.region-key{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0 20px;font-size:12px}
+.region-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 25px}
+.region-row{display:grid;grid-template-columns:105px minmax(0,1fr) 58px;gap:9px;align-items:center;font-size:13px}
+.region-name{overflow-wrap:anywhere}.region-track{height:14px;border-radius:5px;background:#e6edf6;overflow:hidden}
+.region-fill{height:100%;border-radius:5px}.region-row strong{text-align:right}
+.source-panel{margin-top:20px}.source-row{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;padding:10px 0;border-bottom:1px solid #d9e3ef;font-size:14px}.source-row:last-child{border-bottom:0}
+.status{padding:15px;text-align:center}.error{color:#c42828}
+@media(max-width:1100px){.revenue-heading{font-size:clamp(21px,2.5vw,29px)}.filters{grid-template-columns:repeat(3,minmax(0,1fr))}.visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.visual-grid .panel:last-child{grid-column:1/-1}.kpis{gap:12px}.kpi{padding:13px 11px;gap:10px}.kpi-icon{flex-basis:54px;width:54px;height:54px}.kpi h2{font-size:15px}.kpi strong{font-size:clamp(18px,2.4vw,26px)}}
+@media(max-width:760px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kpi{min-height:105px}.kpi strong{font-size:clamp(19px,3vw,26px)}.visual-grid{grid-template-columns:1fr}.visual-grid .panel:last-child{grid-column:auto}.region-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.revenue-heading{font-size:clamp(19px,5vw,23px);padding:12px 8px}.filters{gap:9px;padding:11px}.filters label{font-size:12px}.filters select{font-size:14px}.kpis{grid-template-columns:1fr;gap:12px}.kpi{min-height:108px;padding:15px 14px;gap:15px}.kpi-icon{flex-basis:62px;width:62px;height:62px}.kpi h2{font-size:17px}.kpi strong{font-size:clamp(24px,6vw,31px)}.collection-progress{padding:12px}.progress-labels{font-size:13px}.progress-numbers{font-size:18px}.region-row{grid-template-columns:85px minmax(0,1fr) 54px}.source-row{grid-template-columns:1fr auto}.source-row small{grid-column:1/-1}}
+@media(max-width:350px){.filters{grid-template-columns:1fr}.kpi strong{font-size:23px}}
+
+
+
+.revenue-heading{background:linear-gradient(110deg,#073776,#0756b2);color:#fff;text-align:center;padding:14px 18px;border:1px solid #3285d5;border-radius:11px;box-shadow:0 3px 9px #123b7030;font-size:clamp(20px,2.4vw,36px);font-weight:800;line-height:1.2;margin:10px 0 18px}

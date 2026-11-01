@@ -1,0 +1,10 @@
+<div class="imes-app" [class.dark]="state.dark()" [attr.data-skin]="state.skin()">
+ <ng-container *ngIf="!isLogin">
+ <header class="topbar"><div class="brand"><img src="assets/coat.png" alt="Coat of arms"/><b>IMES REPORTS</b><small>{{'system'|tr}}</small></div>
+ <div class="settings"><label class="setting lang">🌐 <select aria-label="Language" [value]="i18n.language()" (change)="i18n.setLanguage($any($event.target).value)"><option value="sw">Sw</option><option value="en">En</option></select></label>
+ <label class="setting mode">☀ <select aria-label="Mode" [value]="state.dark()?'night':'day'" (change)="state.dark.set($any($event.target).value==='night')"><option value="day">{{'day'|tr}}</option><option value="night">{{'night'|tr}}</option></select></label>
+ <label class="setting skin">◉ <select aria-label="Skin" [value]="state.skin()" (change)="state.skin.set($any($event.target).value)"><option value="blue">{{'blue'|tr}}</option><option value="orange">{{'orange'|tr}}</option><option value="purple">{{'purple'|tr}}</option></select></label></div></header>
+ <nav class="nav" aria-label="Page navigation"><a routerLink="/dashboard">⌂ {{'home'|tr}}</a><button type="button" (click)="back()">← {{'back'|tr}}</button><button class="logout" (click)="logout()">{{'signOut'|tr}}</button></nav>
+ </ng-container>
+ <main><router-outlet/></main><footer *ngIf="!isLogin">© 2026 | OWM-TAMISEMI | IMES Reports v.01</footer>
+</div>

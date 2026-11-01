@@ -1,0 +1,40 @@
+<section class="health-dashboard">
+  <h1 class="health-heading">{{ 'HEALTH EXECUTIVE DASHBOARD' | tr }}</h1>
+
+  <p *ngIf="loading" class="status">{{ 'Loading health dashboard data…' | tr }}</p>
+  <p *ngIf="error" class="status error">{{error}} — {{ 'Check assets/data/health-demo.json' | tr }}</p>
+  <ng-container *ngIf="!loading && !error">
+    <div class="filters">
+      <label>{{ 'Reporting Year' | tr }}<select [(ngModel)]="filters.year" (ngModelChange)="apply()"><option value="All">{{ 'All' | tr }}</option><option *ngFor="let y of years" [value]="y">{{y}}</option></select></label>
+      <label>{{ 'Region' | tr }}<select [(ngModel)]="filters.region" (ngModelChange)="updateDistricts()"><option value="All">{{ 'All Regions' | tr }}</option><option *ngFor="let r of regions" [value]="r">{{r}}</option></select></label>
+      <label>{{ 'District' | tr }}<select [(ngModel)]="filters.district" (ngModelChange)="apply()"><option value="All">{{ 'All Districts' | tr }}</option><option *ngFor="let d of districts" [value]="d">{{d}}</option></select></label>
+      <div class="filter-action"><button type="button" (click)="apply()">{{ 'Apply Filter' | tr }}</button></div>
+    </div>
+    <div class="section-title">{{ 'HEALTH FACILITIES' | tr }}</div>
+    <div class="kpis">
+      <article class="kpi" *ngFor="let k of kpis | slice:0:10;trackBy:trackKpi" [ngClass]="k.color">
+        <span class="kpi-icon"><span aria-hidden="true">✚</span><img [src]="'assets/icons/health-icons/'+k.icon+'.png'" alt="" (error)="$any($event.target).style.display='none'"></span>
+        <div class="kpi-content"><h2>{{k.label | tr}}</h2><strong [title]="format(k.value,k.format)">{{format(k.value,k.format)}}</strong><small *ngIf="k.suffix">{{k.suffix | tr}}</small></div>
+      </article>
+    </div>
+    <div class="section-title">{{ 'HEALTH INSURANCE, DIGITAL SYSTEMS AND COLLECTIONS' | tr }}</div>
+    <div class="kpis">
+      <article class="kpi" *ngFor="let k of kpis | slice:10:19;trackBy:trackKpi" [ngClass]="k.color">
+        <span class="kpi-icon"><span aria-hidden="true">✚</span><img [src]="'assets/icons/health-icons/'+k.icon+'.png'" alt="" (error)="$any($event.target).style.display='none'"></span>
+        <div class="kpi-content"><h2>{{k.label | tr}}</h2><strong [title]="format(k.value,k.format)">{{format(k.value,k.format)}}</strong><small *ngIf="k.suffix">{{k.suffix | tr}}</small></div>
+      </article>
+    </div>
+    <div class="section-title">{{ 'MATERNAL AND NEWBORN HEALTH' | tr }}</div>
+    <div class="kpis mortality-kpis">
+      <article class="kpi" *ngFor="let k of kpis | slice:19:21;trackBy:trackKpi" [ngClass]="k.color">
+        <span class="kpi-icon"><span aria-hidden="true">✚</span><img [src]="'assets/icons/health-icons/'+k.icon+'.png'" alt="" (error)="$any($event.target).style.display='none'"></span>
+        <div class="kpi-content"><h2>{{k.label | tr}}</h2><strong>{{format(k.value,k.format)}}</strong><small *ngIf="k.suffix">{{k.suffix | tr}}</small></div>
+      </article>
+    </div>
+    <div class="chart-grid">
+      <article class="panel"><h2>{{ 'FACILITIES BY TYPE' | tr }}</h2><div class="donut" [style.background]="donutStyle"><div class="donut-hole"><strong>{{format(facilityTotal)}}</strong><span>{{ 'Total facilities' | tr }}</span></div></div><div class="legend"><span *ngFor="let s of facilitySlices"><i [style.background]="s.color"></i>{{s.label | tr}} ({{format(s.value)}})</span></div></article>
+      <article class="panel"><h2>{{ 'BIMA KWA WOTE MEMBERS BY REGION' | tr }}</h2><div class="region-chart"><div class="region-row" *ngFor="let r of regionMembers"><span>{{r.region}}</span><div class="track"><div class="bar blue-bar" [style.width.%]="width(r.members,maxRegionMembers)"></div></div><strong>{{compact(r.members)}}</strong></div><p *ngIf="!regionMembers.length" class="status">{{ 'No matching records.' | tr }}</p></div></article>
+    </div>
+    <article class="panel items-panel"><h2>{{ 'HEALTH ITEMS REQUIRED VS AVAILABLE' | tr }}</h2><p class="subtitle">{{ 'Resource availability by selected year and location; units depend on the item.' | tr }}</p><div class="item-table"><div class="item-row item-header"><span>{{ 'Item' | tr }}</span><span>{{ 'Required' | tr }}</span><span>{{ 'Available' | tr }}</span><span>{{ 'Availability' | tr }}</span></div><div class="item-row" *ngFor="let x of items"><span>{{x.item | tr}}</span><strong>{{format(x.required)}}</strong><strong>{{format(x.available)}}</strong><div class="availability"><div class="track"><div class="bar" [class.good]="x.percent>=75" [class.warn]="x.percent>=50 && x.percent<75" [class.low]="x.percent<50" [style.width.%]="width(x.percent,100)"></div></div><b>{{x.percent | number:'1.1-1'}}%</b></div></div></div><p *ngIf="!items.length" class="status">{{ 'No matching inventory records.' | tr }}</p></article>
+  </ng-container>
+</section>

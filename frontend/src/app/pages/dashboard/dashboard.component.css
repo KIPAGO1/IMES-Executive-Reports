@@ -1,0 +1,12 @@
+.heading{text-align:center;background:linear-gradient(#e8f2fb,#dbe9f8);border:1px solid #82add0;box-shadow:0 1px 5px #8db1c8;border-radius:8px;padding:10px;color:var(--ink);font-size:clamp(22px,3vw,37px);font-weight:500;margin:4px auto 55px;max-width:1000px}.modules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:44px 26px;max-width:1000px;margin:0 auto 55px}.module{position:relative;display:flex;align-items:center;justify-content:center;min-height:155px;text-decoration:none;border:5px solid #049ce0;border-radius:22px;box-shadow:inset 0 0 0 2px #00b65e,0 3px 8px #1d65b633;background:var(--surface);padding:45px 12px 16px;color:var(--ink)}.module:before{content:'';position:absolute;inset:-5px;border-radius:22px;pointer-events:none;border-top:5px solid #00a75a;border-bottom:5px solid #ffd42b}.module:hover{transform:translateY(-3px);box-shadow:0 8px 20px #1d65b655}.round{position:absolute;top:-33px;left:50%;transform:translateX(-50%);background:white;width:68px;height:68px;border-radius:50%;border:2px solid #0d315e;display:grid;place-items:center}.round img{height:52px;width:52px;object-fit:contain}.name{border:1px solid #82a4d2;border-radius:13px;padding:12px 8px;display:block;width:100%;text-align:center;font-size:clamp(17px,2.4vw,33px);font-weight:800;overflow-wrap:anywhere}@media(max-width:650px){.modules{grid-template-columns:repeat(2,1fr);gap:44px 14px}.module{min-height:135px;padding:40px 6px 12px}.name{font-size:17px}}@media(max-width:390px){.modules{grid-template-columns:1fr}}
+
+
+/* Responsive module text: readable without overflowing card borders */
+@media(min-width:651px) and (max-width:1024px){.modules{grid-template-columns:repeat(2,minmax(0,1fr))}.name{font-size:clamp(25px,3.2vw,33px);overflow-wrap:normal}}
+@media(max-width:650px){
+.modules{grid-template-columns:repeat(2,minmax(0,1fr));gap:44px 12px}
+.module{min-width:0;min-height:155px;padding:43px 6px 13px;box-sizing:border-box}
+.name{box-sizing:border-box;font-size:clamp(19px,5.4vw,25px);line-height:1.13;letter-spacing:-.4px;padding:12px 3px;overflow-wrap:normal;word-break:normal;hyphens:auto}
+.heading{font-size:clamp(25px,6vw,33px);line-height:1.15}
+}
+@media(max-width:360px){.modules{grid-template-columns:1fr;max-width:330px;margin-left:auto;margin-right:auto}.name{font-size:29px}}

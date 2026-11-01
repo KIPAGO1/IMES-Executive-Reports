@@ -1,0 +1,18 @@
+ :host{display:block;min-height:100vh}.imes-app{--accent:#0756b2;--ink:#092b62;--surface:#fff;--bg:#f6faff;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}.imes-app[data-skin=orange]{--accent:#dc7608;--ink:#653704}.imes-app[data-skin=purple]{--accent:#6b35c9;--ink:#3c216c}.imes-app.dark{--bg:#101a2e;--surface:#202e47;--ink:#f3f7ff;color:var(--ink)}.topbar{background:linear-gradient(110deg,#073776,var(--accent));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 3%;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:13px}.brand img{height:57px;width:57px;object-fit:contain;border-radius:50%}.brand b{font-size:25px}.brand small{border-left:1px solid #ffffff80;padding-left:12px}.settings{display:flex;gap:10px;flex-wrap:wrap}.setting{background:#fff;color:#12386a;padding:8px 12px;border-radius:20px;font-weight:bold}.setting.lang{border-bottom:4px solid #00a76a}.setting.mode{border-bottom:4px solid #ffbb23}.setting.skin{border-bottom:4px solid #ad66f2}.setting select{border:0;background:transparent;font-weight:bold;cursor:pointer;color:#153c78}.nav{display:flex;gap:9px;padding:12px 3%;align-items:center}.nav a,.nav button{background:var(--surface);border:1px solid #9cbbe5;color:var(--ink);padding:9px 18px;border-radius:10px;font-weight:bold;text-decoration:none;cursor:pointer}.nav .logout{margin-left:auto}.imes-app main{max-width:1580px;margin:auto;padding:0 2.5% 28px}.imes-app footer{text-align:center;background:#063d83;color:white;padding:13px;font-size:13px}@media(max-width:650px){.brand small{display:none}.brand b{font-size:20px}.topbar{justify-content:center}.nav{padding:10px}.imes-app main{padding:0 12px 25px}}
+
+ 
+/* Responsive header: preserve desktop and keep all three settings on one row */
+@media(max-width:700px){
+.topbar{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:12px;padding:14px 10px 16px}
+.brand{justify-content:center;gap:12px;min-width:0}
+.brand img{width:62px;height:62px;flex-shrink:0}
+.brand b{font-size:clamp(21px,5.5vw,27px);white-space:nowrap}
+.settings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;width:100%;flex-wrap:nowrap}
+.setting{box-sizing:border-box;min-width:0;padding:8px 5px;display:flex;align-items:center;justify-content:center;gap:3px;font-size:clamp(13px,3.4vw,17px);white-space:nowrap;border-radius:22px}
+.setting select{min-width:0;max-width:calc(100% - 19px);font-size:inherit;padding:0;cursor:pointer}
+.nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:10px}
+.nav a,.nav button{min-width:0;min-height:57px;padding:8px 4px;font-size:clamp(15px,4vw,19px);text-align:center;display:flex;justify-content:center;align-items:center;overflow-wrap:normal}
+.nav .logout{margin-left:0}
+.imes-app main{padding:0 10px 25px}
+}
+@media(max-width:360px){.setting{padding:7px 2px;font-size:12px}.settings{gap:4px}.brand b{font-size:20px}}

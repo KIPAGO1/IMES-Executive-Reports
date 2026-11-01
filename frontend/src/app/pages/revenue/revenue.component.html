@@ -1,0 +1,44 @@
+<section class="revenue-dashboard">
+
+  <h1 class="revenue-heading">
+    {{ 'revenueExecutiveReport' | tr }}
+  </h1>
+
+  <div *ngIf="loading" class="status">{{ 'Loading revenue data…' | tr }}</div>
+  <div *ngIf="error" class="status error">{{error}} — {{ 'Check src/assets/data/revenue-demo.json' | tr }}</div>
+  <ng-container *ngIf="!loading && !error">
+    <div class="filters">
+      <label>{{ 'Financial Year' | tr }}<select [(ngModel)]="filters.financialYear" (ngModelChange)="apply()"><option value="All">{{ 'All' | tr }}</option><option *ngFor="let y of years" [value]="y">{{y}}</option></select></label>
+      <label>{{ 'Quarter' | tr }}<select [(ngModel)]="filters.quarter" (ngModelChange)="apply()"><option value="All">{{ 'All' | tr }}</option><option value="1">{{ 'Quarter 1' | tr }}</option><option value="2">{{ 'Quarter 2' | tr }}</option><option value="3">{{ 'Quarter 3' | tr }}</option><option value="4">{{ 'Quarter 4' | tr }}</option></select></label>
+      <label>{{ 'Main Source' | tr }}<select [(ngModel)]="filters.mainSource" (ngModelChange)="apply()"><option value="All">{{ 'All' | tr }}</option><option *ngFor="let s of sources" [value]="s">{{s}}</option></select></label>
+      <label>{{ 'Region' | tr }}<select [(ngModel)]="filters.region" (ngModelChange)="updateDistricts()"><option value="All">{{ 'All' | tr }}</option><option *ngFor="let r of regions" [value]="r">{{r}}</option></select></label>
+      <label>{{ 'District' | tr }}<select [(ngModel)]="filters.district" (ngModelChange)="apply()"><option value="All">{{ 'All' | tr }}</option><option *ngFor="let d of districts" [value]="d">{{d}}</option></select></label>
+    </div>
+    <section class="collection-progress" [attr.aria-label]="'PLAN VS COLLECTED' | tr">
+      <div class="progress-labels"><span>{{ 'COLLECTED' | tr }}</span><span>{{ 'NOT COLLECTED' | tr }}</span></div>
+      <div class="progress-track"><div class="progress-collected" [style.width.%]="percent"></div><div class="progress-uncollected" [style.width.%]="remainingPercent"></div></div>
+      <div class="progress-numbers"><strong>{{percent | number:'1.2-2'}}%</strong><strong>{{remainingPercent | number:'1.2-2'}}%</strong></div>
+    </section>
+    <div class="kpis" [attr.aria-label]="'revenueExecutiveReport' | tr">
+      <article class="kpi kpi-plan">
+        <div class="kpi-icon" aria-hidden="true"><span>▤</span><img src="assets/icons/revenue-icons/revenue-plan.png" alt="" (error)="$any($event.target).style.display='none'"></div>
+        <div class="kpi-content"><h2>{{ 'PLAN TO COLLECT' | tr }}</h2><strong [title]="money(plan)">TSH {{compact(plan)}}</strong></div>
+      </article>
+      <article class="kpi kpi-collected">
+        <div class="kpi-icon" aria-hidden="true"><span>✓</span><img src="assets/icons/revenue-icons/revenue-collected.png" alt="" (error)="$any($event.target).style.display='none'"></div>
+        <div class="kpi-content"><h2>{{ 'TOTAL COLLECTED' | tr }}</h2><strong [title]="money(collected)">TSH {{compact(collected)}}</strong><small>{{percent | number:'1.2-2'}}% {{ 'of plan' | tr }}</small></div>
+      </article>
+      <article class="kpi kpi-remaining">
+        <div class="kpi-icon" aria-hidden="true"><span>!</span><img src="assets/icons/revenue-icons/revenue-not-collected.png" alt="" (error)="$any($event.target).style.display='none'"></div>
+        <div class="kpi-content"><h2>{{ 'NOT COLLECTED' | tr }}</h2><strong [title]="money(uncollected)">TSH {{compact(uncollected)}}</strong><small>{{remainingPercent | number:'1.2-2'}}% {{ 'of plan' | tr }}</small></div>
+      </article>
+    </div>
+    <div class="visual-grid">
+      <article class="panel"><h2>{{ 'PLAN VS COLLECTED' | tr }}</h2><div class="donut" [style.background]="planDonut"><div class="donut-hole"><b>{{percent | number:'1.1-1'}}%</b><span>{{ 'Collected' | tr }}</span></div></div><div class="legend"><span><i class="cyan"></i> Collected</span><span><i class="red"></i> Not collected</span></div></article>
+      <article class="panel"><h2>{{ 'MAIN SOURCE DISTRIBUTION' | tr }}</h2><p class="subtitle">{{ 'Protected and Unprotected Revenue' | tr }}</p><div class="donut" [style.background]="protectionDonut"><div class="donut-hole"><b>{{protectedShare | number:'1.1-1'}}%</b><span>{{ 'Protected' | tr }}</span></div></div><div class="legend"><span><i class="green"></i> Protected</span><span><i class="blue"></i> Unprotected</span></div></article>
+      <article class="panel"><h2>{{ 'QUARTER COLLECTION' | tr }}</h2><div class="quarter-chart"><div class="quarter" *ngFor="let q of quarters"><div class="quarter-value">{{compact(q.collected)}}</div><div class="quarter-bar-wrap"><div class="quarter-bar" [style.height.%]="q.collected / maxQuarter * 100"></div></div><span>{{q.label | tr}}</span></div></div></article>
+    </div>
+    <section class="panel region-panel"><h2>{{ 'REGION COLLECTION PERFORMANCE' | tr }}</h2><p class="subtitle">{{ 'Percentage of revenue plan achieved · 0–100%' | tr }}</p><div class="region-key"><span><i style="background:#df3535"></i> Below 25%</span><span><i style="background:#f2c12e"></i> 25–49%</span><span><i style="background:#2984d6"></i> 50–74%</span><span><i style="background:#0ca765"></i> 75%+</span></div><div class="region-grid"><div class="region-row" *ngFor="let r of regionPerformance"><span class="region-name">{{r.label}}</span><div class="region-track"><div class="region-fill" [style.width.%]="r.percent > 100 ? 100 : r.percent" [style.background]="performanceColor(r.percent)"></div></div><strong>{{r.percent | number:'1.1-1'}}%</strong></div></div><p *ngIf="!regionPerformance.length" class="status">{{ 'No data for selected filters.' | tr }}</p></section>
+    <section class="panel source-panel"><h2>{{ 'COLLECTION BY MAIN SOURCE' | tr }}</h2><div class="source-row" *ngFor="let s of sourcePerformance"><span>{{s.label | tr}}</span><strong>TSH {{compact(s.collected)}}</strong><small>{{s.percent | number:'1.1-1'}}% {{ 'of plan' | tr }}</small></div></section>
+  </ng-container>
+</section>
