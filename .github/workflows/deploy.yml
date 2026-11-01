@@ -89,4 +89,4 @@ jobs:
           curl --fail --retry 5 --retry-delay 3 \
             "http://${EC2_HOST}/login" > /dev/null
 
-          echo "IMES deployment completed successfully!"
+          echo "IMES deployment completed successfully!!"
