@@ -1,0 +1,139 @@
+<div class="push-page">
+  <div class="page-heading">
+    <div>
+      <h1>Push Data to Dashboard / Reports</h1>
+      <p>Review aggregated figures before publishing them to executive dashboards.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span>Total Items</span><strong>{{ items.length }}</strong></div>
+    <div class="stat"><span>Awaiting Confirmation</span><strong>{{ pendingCount }}</strong></div>
+    <div class="stat"><span>Confirmed</span><strong>{{ confirmedCount }}</strong></div>
+    <div class="stat"><span>Selected</span><strong>{{ selectedItems.length }}</strong></div>
+  </div>
+
+  <div class="success" *ngIf="successMessage" role="status">✓ {{ successMessage }}</div>
+
+
+<div class="table-panel">
+
+  <div class="table-heading">
+
+    <button
+      class="primary-btn"
+      *ngIf="selectedItems.length > 0"
+      (click)="openConfirm()">
+      Confirm Selected ({{ selectedItems.length }})
+    </button>
+  </div>
+
+  <!-- Date and Time, as in the reference PDF -->
+  <div class="table-date-row">
+    <div class="table-date-box">
+      <span>{{ currentDate | date:'dd-MM-yyyy' }}</span>
+      <span>Time: {{ currentDate | date:'HH:mm' }}</span>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <table class="push-grid">
+      <thead>
+        <tr>
+          <th class="check-col">
+            <input type="checkbox"
+                   [checked]="allSelected"
+                   (change)="toggleAll($event)">
+          </th>
+          <th>No.</th>
+          <th>Dashboard</th>
+          <th>Item / Description</th>
+          <th>As Of</th>
+          <th class="numeric">Existing Data</th>
+          <th class="numeric">New Aggregated Data</th>
+          <th class="numeric">Difference</th>
+          <th>Last Confirmed By</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td class="check-col">
+            <input type="checkbox"
+                   [(ngModel)]="item.selected"
+                   [disabled]="item.status !== 'Pending'">
+          </td>
+
+          <td class="row-number">{{ item.id }}</td>
+
+          <td>
+            <span class="category">{{ item.dashboard }}</span>
+          </td>
+
+          <td class="item-name">{{ item.description }}</td>
+
+          <td>{{ item.asOf }}</td>
+
+          <td class="numeric">
+            {{ item.existing === null
+                ? '—'
+                : (item.existing | number:'1.2-2') }}
+          </td>
+
+          <td class="numeric">
+            {{ item.aggregated === null
+                ? '—'
+                : (item.aggregated | number:'1.2-2') }}
+          </td>
+
+          <td class="numeric positive">
+            {{ difference(item) === null
+                ? '—'
+                : (difference(item) | number:'1.2-2') }}
+          </td>
+
+          <td>{{ item.confirmedBy || '—' }}</td>
+
+          <td>
+            <span class="status"
+                  [ngClass]="item.status.toLowerCase().replace(' ', '-')">
+              {{ item.status }}
+            </span>
+          </td>
+
+          <td class="action-col">
+            <button
+              class="row-btn"
+              *ngIf="item.status === 'Pending'"
+              (click)="openConfirm(item)">
+              CONFIRM
+            </button>
+
+            <span *ngIf="item.status !== 'Pending'">—</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+  <div class="modal-backdrop" *ngIf="showDialog">
+    <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="modal-icon">!</div>
+      <h2 id="confirm-title">Confirm Data Publication?</h2>
+      <p>You are about to confirm <strong>{{ dialogItems.length }}</strong> data item(s) for the executive dashboard and reports.</p>
+      <div class="modal-summary">
+        <div><span>Records selected</span><strong>{{ dialogItems.length }}</strong></div>
+        <div><span>Total difference</span><strong>{{ totalDifference() | number:'1.2-2' }}</strong></div>
+      </div>
+      <p class="modal-note">This will replace the displayed existing figures with the new aggregated figures. This is a demo only; no database will be updated.</p>
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+        <button type="button" class="primary-btn" (click)="confirm()">Yes, Confirm Data</button>
+      </div>
+    </div>
+  </div>
+</div>

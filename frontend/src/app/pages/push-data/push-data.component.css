@@ -1,0 +1,228 @@
+/* Page, summary cards and confirmation modal */
+:host { display: block; }
+.push-page { padding: 28px; background: #f5f7fb; min-height: 100vh; color: #172b4d; }
+.page-heading, .table-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.eyebrow { color: #087e8b; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; }
+.page-heading h1 { margin: 8px 0; font-size: 27px; }
+.table-heading h2 { margin: 0 0 5px; font-size: 17px; }
+.push-page p { color: #66758c; font-size: 13px; line-height: 1.6; }
+.demo-tag { background: #fff2d5; color: #a5680c; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 11px; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 15px; margin: 25px 0; }
+.stat { padding: 20px; border-radius: 10px; border: 1px solid rgba(0,0,0,.12); box-shadow: 0 3px 7px rgba(0,0,0,.09); color: #142234; }
+.stat:nth-child(1) { background: #05b5ee; }
+.stat:nth-child(2) { background: #0cbb67; }
+.stat:nth-child(3) { background: #fff000; }
+.stat:nth-child(4) { background: #f32323; color: white; }
+.stat span { display: block; font-size: 12px; font-weight: 750; }
+.stat strong { display: block; font-size: 27px; margin-top: 8px; }
+.primary-btn { background: #087e8b; color: white; border: 0; border-radius: 7px; padding: 11px 16px; cursor: pointer; font-weight: 700; }
+.primary-btn:hover { background: #05616b; }
+.cancel-btn { background: #eef1f5; color: #35465d; border: 0; border-radius: 7px; padding: 11px 20px; cursor: pointer; }
+.success { background: #e3f8ed; color: #117349; border-radius: 9px; padding: 13px 17px; margin-bottom: 15px; font-size: 13px; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(12,26,46,.62); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+.confirm-modal { width: 100%; max-width: 460px; box-sizing: border-box; background: white; border-radius: 16px; padding: 28px; box-shadow: 0 24px 65px rgba(0,0,0,.18); }
+.modal-icon { width: 45px; height: 45px; background: #fff1d6; color: #ad720d; border-radius: 50%; display: grid; place-items: center; font-size: 27px; font-weight: 800; margin-bottom: 15px; }
+.confirm-modal h2 { font-size: 21px; margin: 0 0 10px; }
+.modal-summary { background: #f5f7fb; padding: 15px; border-radius: 10px; margin: 18px 0; }
+.modal-summary div { display: flex; justify-content: space-between; gap: 12px; margin: 7px 0; font-size: 12px; }
+.modal-note { font-size: 12px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+@media(max-width:750px) { .push-page { padding: 15px; } .stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .page-heading h1 { font-size: 22px; } .modal-actions { flex-direction: column-reverse; } .modal-actions button { width: 100%; } }
+
+
+/* ==========================================
+   PUSH DATA TABLE - PDF STYLE
+   ========================================== */
+
+.table-panel {
+  background: #ffffff;
+  border: 1px solid #9da9b5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.table-heading {
+  padding: 14px 16px;
+  border-bottom: 0;
+}
+
+/* Date and time above table, aligned right */
+.table-date-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 12px 7px;
+}
+
+.table-date-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  min-width: 225px;
+  padding: 5px 10px;
+  border: 1px solid #8faac6;
+  border-radius: 4px;
+  background: #f7faff;
+  color: #172b4d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Spreadsheet-style grid */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.push-grid {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #18212d;
+}
+
+.push-grid th,
+.push-grid td {
+  border: 1px solid #59636e;
+  padding: 8px 9px;
+  vertical-align: middle;
+  line-height: 1.3;
+}
+
+/* Visible column headings */
+.push-grid thead th {
+  background: #dbeaf5;
+  color: #101b2a;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: left;
+  border-color: #424d59;
+}
+
+.push-grid tbody td {
+  background: #ffffff;
+  color: #202b38;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Subtle alternating rows */
+.push-grid tbody tr:nth-child(even) td {
+  background: #f5f8fb;
+}
+
+.push-grid tbody tr:hover td {
+  background: #eaf3fb;
+}
+
+/* Checkbox and row number */
+.push-grid .check-col {
+  width: 34px;
+  min-width: 34px;
+  text-align: center;
+}
+
+.push-grid .row-number {
+  text-align: center;
+  font-weight: 700;
+}
+
+.push-grid input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #087e8b;
+}
+
+/* Numeric columns */
+.push-grid .numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.push-grid .positive {
+  color: #08764f;
+  font-weight: 700;
+}
+
+/* Dashboard and description */
+.push-grid .category {
+  font-size: 11px;
+  color: #15344c;
+  font-weight: 800;
+}
+
+.push-grid .item-name {
+  font-weight: 700;
+}
+
+/* Keep existing status badge colors */
+.push-grid .status.pending {
+  background: #fff3d9;
+  color: #946200;
+}
+
+.push-grid .status.confirmed {
+  background: #dcfce9;
+  color: #147d4c;
+}
+
+.push-grid .status.no-data {
+  background: #edf0f4;
+  color: #778394;
+}
+
+/* Compact confirmation buttons */
+.push-grid .action-col {
+  text-align: center;
+}
+
+.push-grid .row-btn {
+  background: #078b52;
+  color: #ffffff;
+  border: 1px solid #056e40;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.push-grid .row-btn:hover {
+  background: #056d40;
+}
+
+/* Smaller screens: horizontal table scrolling */
+@media (max-width: 900px) {
+  .push-grid {
+    min-width: 1200px;
+  }
+
+  .table-date-row {
+    padding-right: 10px;
+  }
+}
+
+
+/* White text for Blue, Green and Red cards */
+.stats .stat:nth-child(1),
+.stats .stat:nth-child(2),
+.stats .stat:nth-child(4) {
+  color: #ffffff;
+}
+
+.stats .stat:nth-child(1) span,
+.stats .stat:nth-child(1) strong,
+.stats .stat:nth-child(2) span,
+.stats .stat:nth-child(2) strong,
+.stats .stat:nth-child(4) span,
+.stats .stat:nth-child(4) strong {
+  color: #ffffff !important;
+}
+
+/* Dark text for Yellow card */
+.stats .stat:nth-child(3) span,
+.stats .stat:nth-child(3) strong {
+  color: #172b4d !important;
+}
